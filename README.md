@@ -2,8 +2,9 @@
 The Cyclistic Project revolves around a fictional bike-sharing company called Cyclistic, created for one of the final capstone projects in Coursera.<br/>
 Cyclistic operates a bike rental service offering both casual and annual memberships. <br/>
 The company is facing a challenge: a large portion of their users are casual riders, and they are seeking ways to convert these casual users into annual members to increase retention and profitability.<br/>
-Noticed that while they have a large base of casual riders, these users do not contribute as much to long-term profitability compared to annual members.<br/>
+
 The main objective of this analysis was to identify patterns in user behavior, understand how casual users interact with the service compared to members, and ultimately provide recommendations on how to convert casual riders into annual members.<br/>
+
 To achieve this, I conducted data cleaning and preparation, analyzed key metrics, created data visualizations, and proposed strategic recommendations for the company.
 
 ## Project Structure 
