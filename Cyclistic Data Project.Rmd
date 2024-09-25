@@ -1,0 +1,43 @@
+---
+title: "Cyclistic R Studio Analysis"
+author: "Lara Oriol Cabrera"
+date: "2024-09-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## INTRODUCTION
+This analysis examines the use of bicycles by users of Cyclistic. This study focuses on understanding the differences in the behavior of casual users and annual members, with the goal of identifying effective strategies to increase the conversion of casual users to members.
+
+This analysis in RStudio complements the work carried out in other tools, helping to reinforce and validate the conclusions and recommendations obtained in previous stages of the project.
+```{r packages}
+library(dplyr)
+library(ggplot2)
+library(readxl)
+Data <- read_excel("/Users/lara/Desktop/GITHUB/DATA ANALYSIS/EXCEL ANALYSIS/Cyclistic Project Database (clean).xlsx")
+```
+## DATA ANALYSIS
+### Average of ride length depending on the type of consumer
+In this analysis, it was observed that Casual users have a significantly longer average trip duration than Members. The first ones mentioned have an average trip duration of approximately 25 minutes,, while their counterpart averages 12 minutes. The longer duration of the trips for Casual riders could indicate that these users enjoy more occasional and less planned walks, probably in recreational or tourist contexts. Members, with shorter journeys, suggest more efficient use of bicycles, probably for daily travel or routine activities.
+```{r average}
+average_ride_length <- Data %>% group_by(`Member_Casual`) %>% summarise(avg_ride_length = mean(Ride_Length, na.rm = TRUE))
+print(average_ride_length)
+```
+### Usage Thoughout The Week
+
+On one hand, Members use the bikes primarily from Monday to Friday, with a peak on Thursdays, reflecting a regular pattern of use, aligned with work or studies. On the other hand, Casual users show greater activity during weekends, especially Saturdays, which reinforces the idea of recreational use. Members seem to use bicycles as a functional and efficient tool for their daily routines, while Casual users prefer weekends, highlighting their inclination towards leisure and recreation.
+````{r usage}
+rides_per_day <- Data %>% 
+group_by(`Member_Casual`, `Dayweek`) %>% 
+summarise(Ride_id = n()) %>% arrange(desc(Ride_id))
+print(rides_per_day)
+rides_per_day$`Dayweek` <- factor(rides_per_day$`Dayweek`, levels = c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"))
+ ggplot(rides_per_day, aes(x = Dayweek, y = Ride_id, color = Member_Casual, group = Member_Casual)) + geom_line(linewidth = 1) + geom_point(size = 2) + labs(title = "Usage of bikes during the week", x = "Day of the week", y = "Number of rides") + theme_minimal() + scale_color_manual(values = c("Member" = "orange", "Casual" = "blue"))
+```
+##CONCLUSION
+In this analysis, we explored the differences in behavior between Casual users and Annual Cyclistic Members, using ride data across different days of the week. By focusing on key metrics like average ride length and frequency of use, we see important patterns. Casual users tend to take longer rides compared to members, which may indicate a more leisure or tourism-oriented use. Annual members, on the other hand, show a more consistent usage pattern, with a greater number of trips during workdays, meaning that many use bicycles for their daily transportation. Moreover, the analysis also revealed that bicycle use by Casual users is significantly higher on weekends, while Annual members maintain a more balanced use throughout the week.
+
+This analysis complements previous studies conducted on the same database, and converting casual users to members remains a key opportunity for Cyclistic. Based on these findings, strategies could be developed that highlight the benefits of annual membership, particularly for those casual users who show frequent use of bicycles during weekends. 
